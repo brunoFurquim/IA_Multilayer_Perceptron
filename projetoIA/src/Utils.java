@@ -1,4 +1,5 @@
 import Models.Camada;
+import Models.Neuronio;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -82,6 +83,23 @@ public class Utils {
             }
             System.out.println("\n\n");
         }
+    }
+
+    public static void leValoresNeuronio(Neuronio neuronio) {
+        System.out.println("Pesos: ");
+        for (int i = 0; i < neuronio.pesos.length; i++) {
+            System.out.print(neuronio.pesos[i] + ", ");
+        }
+        System.out.println();
+        System.out.println("Correções: ");
+        for (int i = 0; i < neuronio.correcoes.length; i++) {
+            System.out.print(neuronio.correcoes[i] + ", ");
+        }
+        System.out.println();
+        System.out.println("Y_in: " + neuronio.y_in);
+        System.out.println("Valor (igual a funcao sigmoide de y_in): " + neuronio.valorInicial);
+        System.out.println("Delta: " + neuronio.delta);
+        System.out.println("\n");
     }
 
     //Inicializa pesos dos neuronios de uma camada com valores aleatorios no intervalo [valorMinimo, valorMaximo]
