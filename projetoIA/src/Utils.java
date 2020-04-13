@@ -1,3 +1,5 @@
+import Models.Camada;
+
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -15,7 +17,7 @@ public class Utils {
     }
 
     public static double[][] populaArranjoPesosAleatorio(double min, double max) {
-        int linhas = 7;
+        int linhas = 32;
         int colunas = 63;
         double[][] pesos = new double[linhas][colunas];
         Random random = new Random();
@@ -62,6 +64,36 @@ public class Utils {
                 System.out.print(/*"(" + i + ", " + j + ")" + " - " + */matriz[i][j] + ", ");
             }
             System.out.println("");
+        }
+    }
+
+    public static void leValoresCamada(Camada camada) {
+        for (int i = 0; i < camada.neuronios.length; i++) {
+            System.out.print(camada.neuronios[i].valorInicial + ", ");
+        }
+        System.out.println();
+    }
+
+    public static void lePesosCamada(Camada camada) {
+        for (int i = 0; i < camada.neuronios.length; i++) {
+            System.out.println("Neuronio " + i);
+            for (int j = 0; j < camada.neuronios[i].pesos.length; j++) {
+                System.out.print(camada.neuronios[i].pesos[j] + ", ");
+            }
+            System.out.println("\n\n");
+        }
+    }
+
+    //Inicializa pesos dos neuronios de uma camada com valores aleatorios no intervalo [valorMinimo, valorMaximo]
+    public static void inicializaPesosAleatorios(Camada camada, double valorMinimo, double valorMaximo) {
+        Random random = new Random();
+        double valorAleatorio;
+        for (int i = 0; i < camada.neuronios.length; i++) {
+            for (int j = 0; j < camada.neuronios[i].pesos.length; j++) {
+                valorAleatorio = valorMinimo + (valorMaximo - valorMinimo) * random.nextDouble();
+                //Método formataDouble da classe Utils formata o valor aleatorio para um double com apenas duas casas decimais
+                camada.neuronios[i].pesos[j] = formataDouble(valorAleatorio);
+            }
         }
     }
 }

@@ -43,14 +43,39 @@ public class Teste {
     }
 
     public static void main(String[] args) {
+
+        //Criar 63 arquivos, cada um com uma matriz 9x7 indicando os pesos das entradas para cada um dos neuronios da camada escondida
+        //double[][] pesos = utils.populaArranjoPesosAleatorio(-0.25, 0.25);
+        //for (int i = 0; i < 32; i++) {
+        //    double[][] pesosTransformado = utils.transformaMatrizPesos(pesos[i]);
+        //    fileUtils.writeArrayToFile(pesosTransformado, "pesos" + String.valueOf(i + 1));
+        //}
+
+        //Calcular y_in para os neuronios da camada escondida, salvar resultados como se fossem entradas
+        double[] entradas_C_E = new double[32];
+        int entradas[][] = criaArranjoEntrada(1);
+        double pesos[][];
+        for (int i = 0; i < 32; i++) {
+            pesos = fileUtils.readArrayFromFile("pesos1_2/pesos" + (i + 1));
+            entradas_C_E[i] = funcaoAtivacaoSigmoid(y_in(0.25, entradas, pesos));
+        }
+        fileUtils.writeArrayToFile(entradas_C_E, "Camada_Escondida/entradas.txt");
+
+
+
+
+
+
+
+
         //fileName = "pesosA";
         //double pesos[][] = utils.readArrayFromFile(fileName);
         //int entradas[][] = criaArranjoEntrada(1);
         //taxaDeAprendizado = calculaTaxaDeAprendizado();
         //System.out.println("Taxa de aprendizado: " + taxaDeAprendizado);
 
-        for (int i = 1; i <= 21; i++)
-        testar(i);
+        //for (int i = 1; i <= 21; i++)
+        //testar(i);
 
         //int i = 0;
         //while (i < 1) {
@@ -76,7 +101,7 @@ public class Teste {
     }
 
     public static int[][] criaArranjoEntrada(int linha) {
-        String entradas[][] = fileUtils.lerDoCSV("caracteres-ruido");
+        String entradas[][] = fileUtils.lerDoCSV("caracteres-limpo");
         return transformaMatrizEntrada(entradas[linha - 1]);
     }
 
@@ -104,6 +129,10 @@ public class Teste {
         return 1;
     }
 
+    public static double funcaoAtivacaoSigmoid(double y_in) {
+        return 1 / (1 + Math.exp(y_in));
+    }
+
 
     public static void treinamento(int[][] entradas, double pesos[][], int t) {
         int resultado = t * -1;
@@ -112,7 +141,7 @@ public class Teste {
             System.out.println("Resultado: " + resultado);
             if (resultado != t) {
                 pesos = recalculaPesos(entradas, pesos, t);
-                fileUtils.writeArrayToFile(pesos, fileName);
+                fileUtils.writeMatrixToFile(pesos, fileName);
                 System.out.println();
             }
         }
