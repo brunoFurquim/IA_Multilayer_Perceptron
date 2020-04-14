@@ -1,3 +1,5 @@
+package Utils;
+
 import Models.Camada;
 import Models.Neuronio;
 
@@ -5,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /*
-* A classe Utils foi criada para juntar métodos necessários para o funcionamento do MultiLayer Perceptron.
+* A classe Utils.Utils foi criada para juntar métodos necessários para o funcionamento do MultiLayer Perceptron.
 * Os métodos que estão definidos nessa classe são usados, em sua maioria, para iterar sobre as estruturas de dados
 * e imprimir as informações de cada objeto.
 * */
@@ -41,8 +43,8 @@ public class Utils {
     * O índice é comparado com as possíveis alternativas (0-6) e cada uma das alternativas corresponde a uma letra.
     * Quanto mais próximo de 1 (ou seja, quanto maior for o valor do neuronio de saída), maior a probabilidade de corresponder a letra pela qual o neuronio é responsável
     * */
-    public static void leResposta(Camada camada) {
-        double valores[] = new double[7];
+    public static void leRespostaProblemaCaracteres(Camada camada) {
+        double valores[] = new double[camada.tamanho];
         //Itera por todos os neuronios da camada recebida como parametro
         for (int i = 0; i < camada.tamanho; i++) {
             valores[i] = camada.neuronios[i].valorInicial;
@@ -59,6 +61,23 @@ public class Utils {
         if (indexDoMaior == 4) System.out.println("E");
         if (indexDoMaior == 5) System.out.println("J");
         if (indexDoMaior == 6) System.out.println("K");
+    }
+
+    /*
+     * Esse método foi criado para identificar se a saída do neurônio da camada de saída é verdadeira ou falsa (1 ou 0, respectivamente)
+     * Os neurônios da camada de saída são responsáveis por identificar se os dados do conjunto de entrada produzem uma saída verdadeira ou falsa.
+     * Como a saída do neurônio não é exata, interpreta-se a saída da seguinte maneira:
+     * Se o valor estiver mais próximo de 1 do que de 0, é verdadeira.
+     * Caso contrário, é falsa.
+     *
+     * O valor é, então, calculado e a resposta é impressa.
+     * */
+    public static void leRespostaProblemaLogico(Camada camada) {
+        leValoresCamada(camada);
+        for (int i = 0; i < camada.tamanho; i++) {
+            if (camada.neuronios[i].valorInicial >= 0.5) System.out.println(1);
+            else System.out.println(0);
+        }
     }
 
     /*

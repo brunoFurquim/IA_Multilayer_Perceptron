@@ -1,3 +1,5 @@
+package Utils;
+
 import Models.Camada;
 
 import java.io.*;
@@ -5,7 +7,7 @@ import java.nio.Buffer;
 import java.util.Scanner;
 
 /*
- * A classe FileUtils foi criada para juntar métodos necessários para a leitura e escrita de dados para arquivos.
+ * A classe Utils.Utils.FileUtils foi criada para juntar métodos necessários para a leitura e escrita de dados para arquivos.
  * Isso possibilita que ao final de cada época, os pesos atualizados de cada neurônio sejam salvos para um arquivo .CSV
  * e que os dados de entrada sejam lidos também de arquivos .CSV
  * */
