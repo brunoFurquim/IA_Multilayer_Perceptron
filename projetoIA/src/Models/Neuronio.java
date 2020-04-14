@@ -5,7 +5,6 @@ public class Neuronio {
     public double y_in = 0;
     public double[] pesos;
     public double[] correcoes;
-    public double bias = 0;
     public double delta = 0;
 
     //Construtor para neuronios da primeira camada que nao possuem peso, ja que o peso é armazenado nos neuronios das camadas escondidas e na camada de saida

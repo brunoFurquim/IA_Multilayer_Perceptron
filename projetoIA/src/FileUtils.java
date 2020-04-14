@@ -4,11 +4,19 @@ import java.io.*;
 import java.nio.Buffer;
 import java.util.Scanner;
 
+/*
+ * A classe FileUtils foi criada para juntar métodos necessários para a leitura e escrita de dados para arquivos.
+ * Isso possibilita que ao final de cada época, os pesos atualizados de cada neurônio sejam salvos para um arquivo .CSV
+ * e que os dados de entrada sejam lidos também de arquivos .CSV
+ * */
 public class FileUtils {
-    public static void main(String[] args) {
 
-    }
-
+    /*
+    * Esse método foi criado para salvar o arranjo de pesos de cada neuronio dentro de um objeto do tipo Camada.
+    * Recebe como parametros a Camada cujos pesos devem ser salvos e o nome do arquivo.
+    * Itera-se sobre todos os neuronios de uma camada e, dentro desse laço, itera-se sobre todos os pesos de cada neuronio.
+    * O peso, então, e salvo em um arquivo .CSV.
+    * */
     public static void salvarPesosCSV(Camada camada, String nomeArquivo) {
         try {
             FileWriter writer = new FileWriter(nomeArquivo + ".csv");
@@ -26,6 +34,14 @@ public class FileUtils {
         }
     }
 
+    /*
+    * De acordo com a primeira etapa do algoritmo, os neurônios devem ter seus pesos inicializados.
+    * Esse método foi implementado para poder ler dados armazenados em um arquivo do tipo .CSV e passá-los para objetos do tipo Neuronio.
+    * Recebe como parametros o objeto do tipo Camada cujos Neuronios receberão os valores e o nome do arquivo .CSV que deverá ser lido.
+    * Itera-se sobre o arquivo .CSV, linha por linha, e cada String é, então, dividida (com a regex sendo uma vírgula, já que os valores no arquivo .CSV são divididos por vírgulas)
+    * e os arranjos obtidos são armazenados em uma matriz do tipo String.
+    * Após o primeiro laço, itera-se sobre todos os neuronios da Camada passada como argumento e, em cada peso do neurônio sendo iterado, armazena-se o valor equivalente que foi lido no arquivo.
+    * */
     public static Camada lerPesosCSV(Camada camada, String nomeArquivo) {
         String[][] pesos = new String[camada.neuronios.length][camada.neuronios[0].pesos.length];
         int contador = 0;
@@ -39,6 +55,7 @@ public class FileUtils {
                 contador++;
             }
 
+            //Nesse laço os pesos lidos no arquivo são transformados em elementos do tipo double utilizando o método "parseDouble" e armazenados nos neurônios.
             for (int i = 0; i < camada.neuronios.length; i++) {
                 for (int j = 0; j < camada.neuronios[i].pesos.length; j++) {
                     camada.neuronios[i].pesos[j] = Double.parseDouble(pesos[i][j]);
@@ -50,6 +67,12 @@ public class FileUtils {
         return camada;
     }
 
+    /*
+    * Esse método também foi implementado com o objetivo de ler dados de um arquivo .CSV.
+    * Tem como objetivo ler o arquivo cujo nome é passado como parametro do método.
+    * O método itera sobre as linhas do arquivo .CSV, as divide (pelas virgulas) em arranjos do tipo String e armazena esses arranjos em uma matrix de Strings.
+    * Essa matriz é, então, retornada pelo método.
+    * */
     public static String[][] lerDoCSV(String nomeArquivo) {
         String[][] entradas = new String[21][64];
         String[] entrada;
@@ -68,84 +91,5 @@ public class FileUtils {
         }
         return entradas;
     }
-
-    public void createFile(String fileName) {
-        try {
-            File myFile = new File(fileName);
-            if (myFile.createNewFile())
-                System.out.println("File created");
-            else
-                System.out.println("File already exists");
-        } catch (IOException e) {
-            System.out.println("Error ocurred");
-            e.printStackTrace();
-        }
-    }
-
-    public void writeArrayToFile(double array[], String fileName) {
-        try {
-            FileWriter writer = new FileWriter("Camada_Escondida/entradas.txt");
-            for (int i = 0; i < array.length; i++) {
-                writer.write(String.valueOf(array[i]) + " ");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeMatrixToFile(double matrix[][], String fileName) {
-        try {
-            createFile("Pesos1_2/" + fileName + ".txt");
-            FileWriter writer = new FileWriter("Pesos1_2/" + fileName + ".txt");
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[i].length; j++) {
-                    writer.write(String.valueOf(matrix[i][j]) + " ");
-                }
-                writer.write("\n");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public double[][] readArrayFromFile(String fileName) {
-        double[][] pesos = new double[9][7];
-        try {
-            File myFile = new File(fileName + ".txt");
-            Scanner scanner = new Scanner(myFile);
-            int count = 0;
-            while (scanner.hasNextLine()) {
-                String row = scanner.nextLine();
-                double[] linhaDePesos = new double[7];
-                String[] rowWeights = row.split(" ");
-                for (int i = 0; i < rowWeights.length; i++) {
-                    linhaDePesos[i] = Double.valueOf(rowWeights[i]);
-                }
-                pesos[count++] = linhaDePesos;
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return pesos;
-    }
-
-    //Carrega os valores de um arquivo CSV para os neuronios da camada informada
-    public static Camada carregaCamadaCSV(Camada camada, String fileName, int linhaDoArquivo) {
-        //Le o arquivo CSV e transforma em uma matriz de Strings
-        String entradas[][] = lerDoCSV(fileName);
-        for (int i = 0; i < entradas[linhaDoArquivo].length - 1; i++) {
-            if (entradas[linhaDoArquivo][i].equals("1"))
-                camada.neuronios[i].valorInicial = 1;
-            else
-                camada.neuronios[i].valorInicial = -1;
-            //O método parseDouble está lançando uma exceção para valores negativos, investigar a causa
-            //camada.neuronios[i].valorInicial = Double.parseDouble(entradas[linha][i]);
-        };
-        return camada;
-    }
-
 
 }
